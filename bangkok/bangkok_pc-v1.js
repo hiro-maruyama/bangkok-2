@@ -21,26 +21,30 @@ const map = new maplibregl.Map({
             // 人口と駅までの距離レイヤ
             popsta: {
                 type: 'geojson',
-                data: './bangkok/polygon1km_pop-dis.geojson',
+//                data: './bangkok/polygon1km_pop-dis.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/polygon1km_pop-dis.geojson`,            
                 attribution: '<a href="https://data.humdata.org/dataset/worldpop-population-density-for-thailand">Thailand-Population Density</a>',
             },
             // 人口変化レイヤ
             popchg:{
                 type: 'geojson',
-                data: './bangkok/bangkok_pop_diff_16-20_final.geojson',
+ //               data: './bangkok/bangkok_pop_diff_16-20_final.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/bangkok_pop_diff_16-20_final.geojson`,
                 attribution: '<a href="https://data.humdata.org/dataset/worldpop-population-density-for-thailand">Thailand-Population Density</a>',
             },
 
             // railway data from OSM
             railway: {
                 type: 'geojson',
-                data: './bangkok/railway.geojson',
+    //          data: './bangkok/railway.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/railway.geojson`,               
                 attribution: '<a href="https://data.humdata.org/dataset/hotosm_tha_railways">Thailand Railways (OpenStreetMap Export)</a>',
             },
             // station with near busstops   
             station2bus: {
                 type: 'geojson',
-                data: './bangkok/dist_rst2bsp_sl.geojson',
+ //               data: './bangkok/dist_rst2bsp_sl.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/dist_rst2bsp_sl.geojson`,               
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
 
@@ -53,7 +57,8 @@ const map = new maplibregl.Map({
             // bus stop
             busstop: {
                 type: 'geojson',
-                data: './bangkok/light_busstop_bangkok_metro.geojson',
+//                data: './bangkok/light_busstop_bangkok_metro.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/light_busstop_bangkok_metro.geojson`,              
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
 
@@ -68,7 +73,8 @@ const map = new maplibregl.Map({
             // bus route
             busroute: {
                 type: 'geojson',
-                data: './bangkok/light_bus-route.geojson',
+//                data: './bangkok/light_bus-route.geojson',
+                data: `${location.href.replace('index.html','')}bangkok/light_bus-route.geojson`,               
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
             //  population value layer
