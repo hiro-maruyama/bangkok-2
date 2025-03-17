@@ -1,8 +1,8 @@
 //import maplibregl from 'maplibre-gl';
 //import 'maplibre-gl/dist/maplibre-gl.css';
-import 'https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css';     
-import 'https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js';
-import "https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"
+//import 'https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css';     
+//import 'https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js';
+//import "https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"
 
 const map = new maplibregl.Map({
     container: 'map',
