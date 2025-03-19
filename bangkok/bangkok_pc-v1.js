@@ -24,30 +24,34 @@ const map = new maplibregl.Map({
             // 人口と駅までの距離レイヤ
             popsta: {
                 type: 'geojson',
-//                data: './bangkok/polygon1km_pop-dis.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/polygon1km_pop-dis.geojson`,            
+//  use above in local, below when iploading  to github 
+                data: './bangkok/polygon1km_pop-dis.geojson',
+//                data: `${location.href.replace('index.html','')}bangkok/polygon1km_pop-dis.geojson`,            
                 attribution: '<a href="https://data.humdata.org/dataset/worldpop-population-density-for-thailand">Thailand-Population Density</a>',
             },
             // 人口変化レイヤ
             popchg:{
                 type: 'geojson',
- //               data: './bangkok/bangkok_pop_diff_16-20_final.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/bangkok_pop_diff_16-20_final.geojson`,
+ //  use above in local, below when iploading  to github                
+                data: './bangkok/bangkok_pop_diff_16-20_final.geojson',
+//                data: `${location.href.replace('index.html','')}bangkok/bangkok_pop_diff_16-20_final.geojson`,
                 attribution: '<a href="https://data.humdata.org/dataset/worldpop-population-density-for-thailand">Thailand-Population Density</a>',
             },
 
             // railway data from OSM
             railway: {
                 type: 'geojson',
-    //          data: './bangkok/railway.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/railway.geojson`,               
+//  use above in local, below when iploading  to github 
+                data: './bangkok/railway.geojson',
+//                data: `${location.href.replace('index.html','')}bangkok/railway.geojson`,               
                 attribution: '<a href="https://data.humdata.org/dataset/hotosm_tha_railways">Thailand Railways (OpenStreetMap Export)</a>',
             },
             // station with near busstops   
             station2bus: {
                 type: 'geojson',
- //               data: './bangkok/dist_rst2bsp_sl.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/dist_rst2bsp_sl.geojson`,               
+ //  use above in local, below when iploading  to github                
+                data: './bangkok/dist_rst2bsp_sl.geojson',
+ //               data: `${location.href.replace('index.html','')}bangkok/dist_rst2bsp_sl.geojson`,               
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
 
@@ -60,8 +64,9 @@ const map = new maplibregl.Map({
             // bus stop
             busstop: {
                 type: 'geojson',
-//                data: './bangkok/light_busstop_bangkok_metro.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/light_busstop_bangkok_metro.geojson`,              
+ //  use above in local, below when iploading  to github              
+                data: './bangkok/light_busstop_bangkok_metro.geojson',
+//                data: `${location.href.replace('index.html','')}bangkok/light_busstop_bangkok_metro.geojson`,              
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
 
@@ -76,8 +81,9 @@ const map = new maplibregl.Map({
             // bus route
             busroute: {
                 type: 'geojson',
-//                data: './bangkok/light_bus-route.geojson',
-                data: `${location.href.replace('index.html','')}bangkok/light_bus-route.geojson`,               
+//  use above in local, below when iploading  to github                
+                data: './bangkok/light_bus-route.geojson',
+//                data: `${location.href.replace('index.html','')}bangkok/light_bus-route.geojson`,               
                 attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
             //  population value layer
@@ -258,9 +264,9 @@ console.log('Current Zoom Level:', currentZoom);
 
 
 var buspoint;
-var nbstopx
-var nbstopy
-let blref=[]
+var nbstopx;
+var nbstopy;
+let blref=[];
 
 //----- 3/16 add -----
 let popvLayer='pop-station-Layer'
@@ -274,6 +280,22 @@ function updateZoomLevel() {
     const zoomLevel = map.getZoom();
     zoomLevelElement.textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
 }
+
+// function to get bus route stopping specified bus stop
+// 初期化: 空のリスト
+//let blrefList = [];
+
+/*
+function updateBlref(newBlref) {
+    // リストに新しいblrefが含まれていない場合のみ追加
+    if (!blrefList.includes(newBlref)) {
+        blrefList.push(newBlref);
+        
+        // フィルターを更新
+        map.setFilter('busroute-Layer', ['in', 'ref', ...blrefList]);
+    }
+} */
+
 
 // function to show population ineach mesh
 
@@ -398,11 +420,13 @@ map.on('load', () => {
             let closestFeature = null;
             let minDistance = Infinity;
 
+            console.log('bfeature.length:', bfeatures.length);
+
             bfeatures.forEach(feature => {
                 if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
                     // 各ラインフィーチャとの最短距離を計算
                     const line = feature.geometry.coordinates;
-                    console.log('line:', line);
+//                    console.log('line:', line);
                     //           const distance = turf.pointToLineDistance(point, feature.geometry);
                     const distance = turf.pointToLineDistance(bpoint, line);
 
@@ -413,17 +437,36 @@ map.on('load', () => {
                     }
                 }
             });
+            
+            let blrefList = [];
+
+            bfeatures.forEach(feature => {
+                if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+                    // 各ラインフィーチャとの最短距離を計算
+                    const line2 = feature.geometry.coordinates;
+//                    console.log('line:', line);
+                    //           const distance = turf.pointToLineDistance(point, feature.geometry);
+                    const distance2 = turf.pointToLineDistance(bpoint, line2);
+
+                    // 最短距離のラインを選択
+                    if (Math.abs(distance2 - minDistance) <0.01) {
+                        blref = feature.properties.ref;
+                        if (!blrefList.includes(blref)) {
+                            blrefList.push(blref);
+                        }
+                    }
+                }
+            });
 
             if (closestFeature) {
                 console.log('最も近いラインフィーチャ:', closestFeature);
                 console.log('距離', minDistance);
-                blref = closestFeature.properties.ref;
-                console.log('ref', blref);
-                map.setFilter('busroute-Layer', ['==', 'ref', blref]);
+                console.log('ref', blrefList);
+                map.setFilter('busroute-Layer', ['in', 'ref', ...blrefList]);
                 map.setPaintProperty('busroute-Layer', 'line-opacity', 1);
             } else {
                 console.log('ラインが見つかりませんでした');
-            }
+            } 
         }
 
     });
